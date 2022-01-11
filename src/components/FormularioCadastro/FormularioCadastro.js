@@ -2,51 +2,73 @@ import React, { useState } from "react";
 import { Button } from '@mui/material';
 import { TextField, Switch, FormControlLabel } from "@mui/material";
 
-function FormularioCadastro() {
-    const [nome,setNome] = useState("");
-    const [sobrenome,setSobrenome] = useState("");
-
+function FormularioCadastro({aoEnviar}) {
+    const [nome, setNome] = useState("");
+    const [sobrenome, setSobrenome] = useState("");
+    const [cpf, setCpf] = useState("");
+    const [promocoes, setPromocoes] = useState(true);
+    const [novidades, setNovidades] = useState(true);
     return (
         <form onSubmit={event => {
             event.preventDefault();
-            console.log(nome, sobrenome);
+            aoEnviar({nome, sobrenome, cpf, promocoes, novidades});
         }}>
             <TextField
                 value={nome}
                 onChange={event => {
-                    let nomeDigitado = event.target.value
-                    if(nomeDigitado.length >= 3) nomeDigitado = nomeDigitado.substring(0,3);
-                    setNome(nomeDigitado)
+                    setNome(event.target.value)
                 }}
-                id="nome" 
-                label="Nome" 
-                margin="normal" 
-                fullWidth 
+                id="nome"
+                label="Nome"
+                margin="normal"
+                fullWidth
             />
-            <TextField 
+            <TextField
                 value={sobrenome}
                 onChange={event => {
                     setSobrenome(event.target.value)
                 }}
-                id="sobrenome" 
-                label="Sobrenome" 
-                margin="normal" 
-                fullWidth 
+                id="sobrenome"
+                label="Sobrenome"
+                margin="normal"
+                fullWidth
             />
-            <TextField 
-                id="cpf" 
-                label="CPF" 
-                margin="normal" 
-                fullWidth 
+            <TextField
+                value={cpf}
+                onChange={event => {
+                    setCpf(event.target.value)
+                }}
+                id="cpf"
+                label="CPF"
+                margin="normal"
+                fullWidth
             />
 
             <FormControlLabel
                 label="Promoções"
-                control={<Switch name="promocoes" defaultChecked color="primary" />}
+                control={
+                    <Switch
+                        onChange={event => {
+                            setPromocoes(event.target.checked)
+                        }}
+                        name="promocoes"
+                        checked={promocoes}
+                        color="primary"
+                    />
+                }
             />
             <FormControlLabel
                 label="Novidades"
-                control={<Switch name="novidades" defaultChecked color="primary" />}
+                control={
+                    <Switch
+                        onChange={event => {
+                            setNovidades(event.target.checked)
+                        }}
+                        name="novidades"
+                        checked={novidades}
+                        color="primary"
+                    />
+                }
             />
 
             <Button type="submit" variant="contained">Cadastrar</Button>
